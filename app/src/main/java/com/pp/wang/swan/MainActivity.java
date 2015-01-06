@@ -1,18 +1,33 @@
 package com.pp.wang.swan;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 
 
 public class MainActivity extends ActionBarActivity {
+    private static final String TAG = "MainActivity";
+    String[] FROM = {DataBaseUtils.DB_USER, DataBaseUtils.DB_TIME, DataBaseUtils.DB_CONTENT};
+    int [] TO = {R.id.itemUser, R.id.itemTime, R.id.itemContent};
+    DataBaseUtils dataBaseUtils;
+    SimpleCursorAdapter adapter;
+    ListView listTimeline;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        listTimeline = (ListView)findViewById(R.id.listTimeline);
+        dataBaseUtils = new DataBaseUtils(getApplicationContext());
+        Cursor cursor = dataBaseUtils.getHistoryContent();
+        adapter = new SimpleCursorAdapter(this, R.layout.microblogitem, cursor, FROM, TO);
+        listTimeline.setAdapter(adapter);
     }
 
 

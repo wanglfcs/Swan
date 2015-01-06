@@ -20,7 +20,7 @@ public class DataBaseUtils {
     static final String TAG = "DataBaseUtils";
     static final String DB_NAME = "swan.db";
     static final String DB_TABLE = "swan";
-    static final String DB_ID = "id";
+    static final String DB_ID = "_id";
     static final String DB_USER = "user";
     static final String DB_TIME = "time";
     static final String DB_CONTENT = "content";
@@ -36,15 +36,14 @@ public class DataBaseUtils {
         dbHelper = new DbHelper(context);
     }
 
-    public Cursor getHistoryContent()
+    public synchronized Cursor getHistoryContent()
     {
         db = dbHelper.getReadableDatabase();
         Cursor res = db.query(DB_TABLE, null, null, null, null, null, DB_TIME + " DESC");
-        db.close();
         return res;
     }
 
-    public long getLastMicroBlogTime()
+    public synchronized long getLastMicroBlogTime()
     {
         db = dbHelper.getReadableDatabase();
         String[] column = {"max(" + DB_TIME + ")"};
@@ -53,7 +52,7 @@ public class DataBaseUtils {
         return res.moveToNext()? res.getLong(0): Long.MIN_VALUE;
     }
 
-    public void updateDataBase()
+    public synchronized void updateDataBase()
     {
         TwitterUtils twitterUtils = new TwitterUtils();
         Twitter twitter = twitterUtils.getTwitter();

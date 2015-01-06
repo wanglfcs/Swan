@@ -64,6 +64,7 @@ public class DataBaseUtils {
             ContentValues values = new ContentValues();
             for (Twitter.Status status: timeline)
             {
+                Log.d(TAG, "content " + status.getText());
                 values.put(DB_ID, status.getId());
                 values.put(DB_USER, status.getUser().getName());
                 values.put(DB_TIME, status.getCreatedAt().getTime());

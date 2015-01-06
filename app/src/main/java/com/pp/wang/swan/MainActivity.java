@@ -1,5 +1,6 @@
 package com.pp.wang.swan;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -30,10 +31,17 @@ public class MainActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id)
+        {
+            case R.id.action_settings:
+                break;
+            case R.id.setting_startService:
+                startService(new Intent(this, UpdateServer.class));
+                break;
+            case R.id.setting_stopService:
+                stopService(new Intent(this, UpdateServer.class));
+                break;
         }
-
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 }

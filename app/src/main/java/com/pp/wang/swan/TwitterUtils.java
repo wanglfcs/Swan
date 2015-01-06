@@ -11,7 +11,7 @@ public class TwitterUtils {
     public Twitter getTwitter() {
         if (twitter == null)
         {
-            String apiRoot = "http://yamba.marakana.com";
+            String apiRoot = "http://yamba.marakana.com/api";
             twitter = new Twitter("wang", "loveping");
             twitter.setAPIRootUrl(apiRoot);
         }

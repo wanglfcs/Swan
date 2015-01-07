@@ -29,17 +29,15 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         listTimeline = (ListView)findViewById(R.id.listTimeline);
         dataBaseUtils = new DataBaseUtils(getApplicationContext());
-        cursor = dataBaseUtils.getHistoryContent();
-        adapter = new SimpleCursorAdapter(this, R.layout.microblogitem, cursor, FROM, TO);
-        adapter.setViewBinder(VIEW_BINDER);
-        listTimeline.setAdapter(adapter);
     }
 
     @Override
     protected void onPostResume() {
         super.onPostResume();
         cursor = dataBaseUtils.getHistoryContent();
-        adapter.notifyDataSetChanged();
+        adapter = new SimpleCursorAdapter(this, R.layout.microblogitem, cursor, FROM, TO);
+        adapter.setViewBinder(VIEW_BINDER);
+        listTimeline.setAdapter(adapter);
     }
 
     static final SimpleCursorAdapter.ViewBinder VIEW_BINDER = new SimpleCursorAdapter.ViewBinder() {
@@ -82,6 +80,9 @@ public class MainActivity extends ActionBarActivity {
                 break;
             case R.id.setting_stopService:
                 stopService(new Intent(this, UpdateServer.class));
+                break;
+            case R.id.setting_postStatus:
+                startActivity(new Intent(this, PostStatusActivity.class));
                 break;
         }
         return true;

@@ -2,7 +2,10 @@ package com.pp.wang.swan;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+import android.util.Log;
+import android.widget.Toast;
 
 import winterwell.jtwitter.Twitter;
 
@@ -11,10 +14,13 @@ import winterwell.jtwitter.Twitter;
  */
 public class TwitterUtils {
     private Twitter twitter;
+    private static final String TAG = "TwitterUtils";
     Context context;
+    PostTask postTask;
     public TwitterUtils(Context context)
     {
         this.context = context;
+        postTask = new PostTask();
     }
 
     public Twitter getTwitter() {
@@ -29,5 +35,30 @@ public class TwitterUtils {
         }
 
         return twitter;
+    }
+
+    public void postStatus(String msg)
+    {
+        postTask.execute(msg);
+    }
+
+    class PostTask extends AsyncTask<String, Integer, String>{
+        @Override
+        protected String doInBackground(String... params) {
+            Twitter.Status status;
+            try {
+                status= getTwitter().updateStatus(params[0]);
+            }catch (Exception e){
+                Log.e(TAG, e.toString());
+                return "faild to post msg";
+            }
+            return status.getText();
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            Toast.makeText(context, s, Toast.LENGTH_LONG).show();
+        }
     }
 }

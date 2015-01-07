@@ -18,7 +18,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SettingsActivity"/>
+        <activity android:name=".SettingsActivity" />
 
         <service
             android:name=".UpdateServer"
@@ -26,6 +26,10 @@
             android:exported="true" >
         </service>
 
+        <activity
+            android:name=".PostStatusActivity"
+            android:label="@string/title_activity_post_status" >
+        </activity>
     </application>
 
 </manifest>

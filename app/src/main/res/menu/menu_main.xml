@@ -7,4 +7,6 @@
         android:title="Start Service"></item>
     <item android:id="@+id/setting_stopService"
         android:title="Stop Service"></item>
+    <item android:id="@+id/setting_postStatus"
+        android:title="Post Status"></item>
 </menu>

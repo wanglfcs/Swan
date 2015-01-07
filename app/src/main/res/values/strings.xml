@@ -3,12 +3,13 @@
 
     <string name="app_name">Swan</string>
     <string name="action_settings">Settings</string>
-
     <string name="settingUserName">User Name</string>
     <string name="settingPassword">Pass Word</string>
     <string name="settingRootApi">Root API</string>
     <string name="settingUserNameSummary">enter your user name</string>
     <string name="settingPasswordSummary">enter your password</string>
     <string name="settingRootApiSummary">your server api path</string>
+    <string name="title_activity_post_status">PostStatusActivity</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>

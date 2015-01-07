@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import winterwell.jtwitter.Twitter;
@@ -54,7 +53,7 @@ public class DataBaseUtils {
 
     public synchronized void updateDataBase()
     {
-        TwitterUtils twitterUtils = new TwitterUtils();
+        TwitterUtils twitterUtils = new TwitterUtils(context);
         Twitter twitter = twitterUtils.getTwitter();
         List<Twitter.Status> timeline;
         db = dbHelper.getWritableDatabase();

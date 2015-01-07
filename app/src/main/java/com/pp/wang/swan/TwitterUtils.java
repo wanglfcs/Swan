@@ -1,5 +1,9 @@
 package com.pp.wang.swan;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
 import winterwell.jtwitter.Twitter;
 
 /**
@@ -7,12 +11,20 @@ import winterwell.jtwitter.Twitter;
  */
 public class TwitterUtils {
     private Twitter twitter;
+    Context context;
+    public TwitterUtils(Context context)
+    {
+        this.context = context;
+    }
 
     public Twitter getTwitter() {
         if (twitter == null)
         {
-            String apiRoot = "http://yamba.marakana.com/api";
-            twitter = new Twitter("wang", "loveping");
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+            String username = prefs.getString("settingUserName", null);
+            String password = prefs.getString("settingPassword", null);
+            String apiRoot = prefs.getString("settingRootApi","http://yamba.marakana.com/api");
+            twitter = new Twitter(username, password);
             twitter.setAPIRootUrl(apiRoot);
         }
 

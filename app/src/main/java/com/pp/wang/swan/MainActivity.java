@@ -4,11 +4,14 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -18,6 +21,7 @@ public class MainActivity extends ActionBarActivity {
     DataBaseUtils dataBaseUtils;
     SimpleCursorAdapter adapter;
     ListView listTimeline;
+    Cursor cursor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,10 +29,32 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         listTimeline = (ListView)findViewById(R.id.listTimeline);
         dataBaseUtils = new DataBaseUtils(getApplicationContext());
-        Cursor cursor = dataBaseUtils.getHistoryContent();
+        cursor = dataBaseUtils.getHistoryContent();
         adapter = new SimpleCursorAdapter(this, R.layout.microblogitem, cursor, FROM, TO);
+        adapter.setViewBinder(VIEW_BINDER);
         listTimeline.setAdapter(adapter);
     }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        cursor = dataBaseUtils.getHistoryContent();
+        adapter.notifyDataSetChanged();
+    }
+
+    static final SimpleCursorAdapter.ViewBinder VIEW_BINDER = new SimpleCursorAdapter.ViewBinder() {
+        @Override
+        public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
+            if (view.getId() != R.id.itemTime)
+                return false;
+            else{
+                long timeNum = cursor.getLong(cursor.getColumnIndex(DataBaseUtils.DB_TIME));
+                CharSequence time = DateUtils.getRelativeTimeSpanString(timeNum);
+                ((TextView) view).setText(time);
+                return true;
+            }
+        }
+    };
 
 
     @Override
@@ -49,6 +75,7 @@ public class MainActivity extends ActionBarActivity {
         switch (id)
         {
             case R.id.action_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
                 break;
             case R.id.setting_startService:
                 startService(new Intent(this, UpdateServer.class));
